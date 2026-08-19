@@ -8,4 +8,5 @@ readStream.on('data', (chunk) => {
 })
 readStream.on('end', () => {
     console.log("File reading completed.");
+    writeStream.end();
 })
