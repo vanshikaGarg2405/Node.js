@@ -1,0 +1,37 @@
+1xx Informational Responses
+The server received the request and the process is continuing.
+
+100 Continue: The initial part of the request is received; the client should proceed.
+101 Switching Protocols: The server agrees to switch protocols, such as upgrading to WebSockets.
+
+2xx Success Responses
+The action was successfully received, understood, and accepted by the server.
+
+200 OK: The standard response for successful HTTP requests.
+201 Created: The request succeeded and a new resource was successfully created.
+202 Accepted: The request is accepted for processing, but processing is incomplete.
+204 No Content: The request succeeded, but the server returns zero data in the body.
+
+3xx Redirection Responses
+The client must take additional action or navigate to a different URL to complete the request.
+
+301 Moved Permanently: The resource has been permanently assigned a new URI.
+302 Found: The resource resides temporarily under a different URI.
+304 Not Modified: The cached version of the resource is still valid to use.
+
+4xx Client Error Responses
+The request contains bad syntax, invalid data, or cannot be fulfilled due to a client-side issue.
+
+400 Bad Request: The server cannot process the request due to a client error.
+401 Unauthorized: Authentication is required and has failed or hasn't been provided.
+403 Forbidden: The client is authenticated but lacks permission for the resource.
+404 Not Found: The server cannot find the requested resource or URL.
+429 Too Many Requests: The client has sent too many requests in a given time.
+
+5xx Server Error Responses
+The server failed to fulfill an otherwise valid request due to an internal issue.
+
+500 Internal Server Error: A generic error message when the server hits an unhandled exception.
+502 Bad Gateway: An upstream server returned an invalid response to the gateway proxy.
+503 Service Unavailable: The server is temporarily overloaded or down for maintenance.
+504 Gateway Timeout: The gateway proxy did not receive a timely response from upstream.
