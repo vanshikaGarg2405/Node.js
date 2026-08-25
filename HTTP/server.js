@@ -1,6 +1,6 @@
-const http = require("http");
-const fs = require("fs");
-//const JSON = 
+//const http = require("http");
+//const fs = require("fs");
+import http from 'http';
 // const server = http.createServer((req, res) => {
 //     res.end("Hello")
 // });
@@ -25,32 +25,32 @@ const server = http.createServer((req, res) => {
     //     res.statusCode = 404;
     //     res.end("Page not found");
     // }
-    // switch(req.url) {
-    //     case "/" : {
-    //         res.end("You are at home page.");
-    //         break;
-    //     }
-    //     case "/About" :  {
-    //         res.end("You are at about page.");
-    //         break;
-    //     }
-    //     case "Conatct" : {
-    //         res.end("Contact us");
-    //         break;
-    //     }
-    //     default : {
-    //         res.statusCode = 404;
-    //         res.end("Page not found");
-    //     }
-    // }
-    if(req.url == "/") {
-        const User = {
-            name: "Vanshika",
-            branch: "CSE",
-            roll: "027"
-        };
-        res.end(JSON.stringify(User));
+    switch(req.url) {
+        case "/" : {
+            res.end("You are at home page.");
+            break;
+        }
+        case "/About" :  {
+            res.end("You are at about page.");
+            break;
+        }
+        case "Conatct" : {
+            res.end("Contact us");
+            break;
+        }
+        default : {
+            res.statusCode = 404;
+            res.end("Page not found");
+        }
     }
+    // if(req.url == "/") {
+    //     const User = {
+    //         name: "Vanshika",
+    //         branch: "CSE",
+    //         roll: "027"
+    //     };
+    //     res.end(JSON.stringify(User));
+    // }
 });
 server.listen(PORT, () => {
     console.log("Server is Listening...");
