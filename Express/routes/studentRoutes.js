@@ -1,4 +1,5 @@
 import express from 'express'
+import checkRoles from '../Middleware/roleMiddleware.js'
 const router = express.Router()
 
 //For students data
@@ -18,13 +19,13 @@ let students = [
 ]
 
 // Requesting all resources from server
-router.get('/', (req, res) => {
+router.get('/', checkRoles('teacher', 'student', 'admin'), (req, res) => {
     //res.end("Hello Express!!")
     res.json(students) // sending response in JSON format
 })
 
 // Raeding data on the basis of filter
-router.get('/search', (req, res) => {
+router.get('/search', checkRoles('teacher', 'student', 'admin'), (req, res) => {
     const {course, age} = req.query;
     const stud = students.filter(s => s.course.toLowerCase() === course.toLowerCase() && s.age === parseInt(age));
     if (!stud) {
@@ -35,7 +36,7 @@ router.get('/search', (req, res) => {
     res.json(stud)
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', checkRoles('teacher', 'student', 'admin'), (req, res) => {
     //console.log(req.params.id) //params means parameters
     const id = parseInt(req.params.id)
     const student = students.find(s => s.id === id)
@@ -47,7 +48,7 @@ router.get('/:id', (req, res) => {
     res.json(student)
 })
 
-router.post('/', (req, res) => {
+router.post('/', checkRoles('teacher', 'admin'), (req, res) => {
     const newStudent = {
         id: students.length + 1,
         name: req.body.name,
@@ -61,7 +62,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkRoles('teacher', 'admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const stud = students.find(s => s.id === id)
     if(!stud) {
@@ -76,7 +77,7 @@ router.put('/:id', (req, res) => {
     res.json(stud)
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', checkRoles('teacher', 'admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const stud = students.find(s => s.id === id)
     if(!stud) {
@@ -91,7 +92,7 @@ router.patch('/:id', (req, res) => {
     res.json(stud)
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkRoles('admin'), (req, res) => {
     const id = parseInt(req.params.id);
     const index = students.findIndex(student => student.id === id)
     if(index == -1 ) {

@@ -1,4 +1,5 @@
 import express from 'express'
+import checkRoles from '../Middleware/roleMiddleware.js'
 const router = express.Router()
 
 // For teachers data
@@ -23,11 +24,11 @@ let teachers = [
     }
 ]
 
-router.get('/', (req, res) => {
+router.get('/', checkRoles('teacher', 'admin'), (req, res) => {
     res.json(teachers)
 })
 
-router.get('/search', (req, res) => {
+router.get('/search', checkRoles('teacher', 'admin'), (req, res) => {
     const {subject, department} = req.query
     const teacher = teachers.filter(
         t => t.subject.toLowerCase() === subject.toLowerCase() && 
@@ -41,7 +42,7 @@ router.get('/search', (req, res) => {
     res.json(teacher)
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', checkRoles('teacher', 'admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const teacher = teachers.find(t => t.id === id)
     if (!teacher) {
@@ -52,7 +53,7 @@ router.get('/:id', (req, res) => {
     res.json(teacher)
 })
 
-router.post('/', (req, res) => {
+router.post('/', checkRoles('admin'), (req, res) => {
     const newTeacher = {
         id: teachers.length + 1,
         name: req.body.name,
@@ -66,7 +67,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkRoles('admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const teacher = teachers.find(t => t.id === id)
     if (!teacher) {
@@ -81,7 +82,7 @@ router.put('/:id', (req, res) => {
     res.json(teacher)
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', checkRoles('admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const teacher = teachers.find(t => t.id === id)
     if(!teacher) {
@@ -96,7 +97,7 @@ router.patch('/:id', (req, res) => {
     res.json(teacher)
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkRoles('admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const index = teachers.findIndex(t => t.id === id)
     if (index === -1) {
