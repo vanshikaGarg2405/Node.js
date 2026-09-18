@@ -29,12 +29,12 @@ router.get('/', checkRoles('teacher', 'admin'), (req, res) => {
 })
 
 router.get('/search', checkRoles('teacher', 'admin'), (req, res) => {
-    const {subject, department} = req.query
+    const { subject, department } = req.query
     const teacher = teachers.filter(
-        t => t.subject.toLowerCase() === subject.toLowerCase() && 
-        t.department.toLowerCase() === department.toLowerCase()
+        t => t.subject.toLowerCase() === String(subject).toLowerCase() &&
+        t.department.toLowerCase() === String(department).toLowerCase()
     )
-    if (!teacher) {
+    if (teacher.length === 0) {
         return res.status(404).json({
             message: "Teacher not found!!"
         })
@@ -55,7 +55,7 @@ router.get('/:id', checkRoles('teacher', 'admin'), (req, res) => {
 
 router.post('/', checkRoles('admin'), (req, res) => {
     const newTeacher = {
-        id: teachers.length + 1,
+        id: teachers.length ? teachers[teachers.length - 1].id + 1 : 1,
         name: req.body.name,
         subject: req.body.subject,
         department: req.body.department
@@ -75,7 +75,7 @@ router.put('/:id', checkRoles('admin'), (req, res) => {
             message: "Teacher not found!!"
         })
     }
-    const {name, subject, department} = req.body
+    const { name, subject, department } = req.body
     teacher.name = name
     teacher.subject = subject
     teacher.department = department
@@ -85,15 +85,15 @@ router.put('/:id', checkRoles('admin'), (req, res) => {
 router.patch('/:id', checkRoles('admin'), (req, res) => {
     const id = parseInt(req.params.id)
     const teacher = teachers.find(t => t.id === id)
-    if(!teacher) {
+    if (!teacher) {
         return res.status(404).json({
             message: "Teacher not found!!"
         })
     }
-    const {name, subject, department} = req.body
-    if(name !== undefined) teacher.name = name
-    if(subject !== undefined) teacher.subject = subject
-    if(department !== undefined) teacher.department = department
+    const { name, subject, department } = req.body
+    if (name !== undefined) teacher.name = name
+    if (subject !== undefined) teacher.subject = subject
+    if (department !== undefined) teacher.department = department
     res.json(teacher)
 })
 

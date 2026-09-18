@@ -1,27 +1,38 @@
 import express from 'express'
 import checkRoles from '../Middleware/roleMiddleware.js'
+import Student from '../Models/studentModels.js'
+
 const router = express.Router()
 
 //For students data
-let students = [
-    {
-        id: 1,
-        name: "Ram",
-        age: 21,
-        course: "BCA"
-    },
-    {
-        id: 2,
-        name: "Shyam",
-        age: 21,
-        course: "B.Tech"
-    }
-]
+// let students = [
+//     {
+//         id: 1,
+//         name: "Ram",
+//         age: 21,
+//         course: "BCA"
+//     },
+//     {
+//         id: 2,
+//         name: "Shyam",
+//         age: 21,
+//         course: "B.Tech"
+//     }
+// ]
 
 // Requesting all resources from server
-router.get('/', checkRoles('teacher', 'student', 'admin'), (req, res) => {
+router.get('/', checkRoles('teacher', 'student', 'admin'), 
+async(req, res) => {
     //res.end("Hello Express!!")
-    res.json(students) // sending response in JSON format
+    try {
+        const students = await Student.find()
+        res.json(students) // sending response in JSON format
+    }
+    catch(error) {
+        res.status(500).json(
+            {message: "Not Found!!"}
+        )
+    }
 })
 
 // Raeding data on the basis of filter
@@ -36,10 +47,11 @@ router.get('/search', checkRoles('teacher', 'student', 'admin'), (req, res) => {
     res.json(stud)
 });
 
-router.get('/:id', checkRoles('teacher', 'student', 'admin'), (req, res) => {
+router.get('/:id', checkRoles('teacher', 'student', 'admin'), 
+async(req, res) => {
     //console.log(req.params.id) //params means parameters
     const id = parseInt(req.params.id)
-    const student = students.find(s => s.id === id)
+    const student = await Student.findById(id)
     if(!student) {
         return res.status(404).json({
             message: "Student not found!!"
