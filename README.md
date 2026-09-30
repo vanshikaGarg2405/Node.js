@@ -51,7 +51,7 @@ git clone https://github.com/vanshikaGarg2405/Node.js.git
 Navigate to the project:
 
 ```bash
-cd Node.js
+cd Express.js
 ```
 
 Install the dependencies:
